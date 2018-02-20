@@ -25,7 +25,8 @@ nan_0001=np.array([np.inf, -np.inf, np.nan, -0.0001, 0.0001])
 #list
 params_list=[]
 tvalues_list=[]
-predict_list=[]
+Ets,predicts=[],[]
+
 grouped = data.groupby(['gvkey_x'])
 for name,group in grouped:
     #条件：数据量大于 1
@@ -70,7 +71,7 @@ for name,group in grouped:
         
         data1=pd.concat([X,y],axis=1)
         result = sm.ols(formula="y~X",data=data1).fit()
-        #parameters&tvalues
+        '''#parameters&tvalues
         parameters=np.array(result.params)
         params_list.append(parameters)
         tvalues=np.array(result.tvalues)
@@ -79,17 +80,25 @@ for name,group in grouped:
         #predict
         linreg = LinearRegression()
         model = linreg.fit(X,y)
-        predicts=linreg.predict(X)
-        dic1={'Et':Et,'Pre':predicts}
-        pre_frame=pd.DataFrame(dic1)
-        '''
+        predict=linreg.predict(X)        
+        Ets.extend(Et)
+        predicts.extend(predict)
+dic1={'Et':Ets,'Pre':predicts}
+pre_frame=pd.DataFrame(dic1)
+prE_frame['AF'] = []
+        
 param_cols = ['int','epspi','acc','dvpsp','prcc','ag','BTM','NEGE','DD']
-Param = pd.DataFrame(params_list,columns=param_cols)  
+Param = pd.DataFrame(params_list,columns=param_cols)
+Param.mean()
 Param.to_csv('/Users/cchenbe/Desktop/CF_AF/raw_data/Param.csv',index=False)
 
 Tvalues=pd.DataFrame(tvalues_list,columns=param_cols)
+Tvalues.mean()
 Tvalues.to_csv('/Users/cchenbe/Desktop/CF_AF/raw_data/Tvalues.csv',index=False)
 
+pre_cols = ['Et','Pre']
+Predicts = pd.DataFrame(predict_list,columns=pre_cols)
+meanest=data['MEANEST']
 
 
 
