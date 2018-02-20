@@ -1,2 +1,5 @@
 /.idea/
-**/__pycache__
+**/__ipycache__
+**/*.pdf
+/raw_data
+**/*.csv
