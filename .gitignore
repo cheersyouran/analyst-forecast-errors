@@ -1,5 +1,7 @@
 /.idea/
 **/__ipycache__
 **/*.pdf
-/raw_data
+/data
 **/*.csv
+**/.DS_Store
+**/*.zip
